@@ -32,6 +32,21 @@ class BooksApp extends React.Component {
     });
   }
 
+  /**
+   * To avoid unnecessary server requests, this function will simply update current
+   * allBooks database with the new "shelf" for "bookId", and causing a rerender
+   */
+  moveBookToShelf = (bookId, shelf) => {
+    this.setState((prevState) => {
+      for (let book of prevState.allBooks) {
+        if (book.id === bookId) {
+          book.shelf = shelf;
+          break;
+        }
+      }
+    });
+  }
+
   render() {
     return (
       <div className="app">
@@ -47,13 +62,19 @@ class BooksApp extends React.Component {
             {this.state.allBooks && (
               <div className="list-books-content">
                 <BookShelf shelfTitle="Currently Reading"
-                  booksInShelf={ this.filterBooks(SHELVES.READING) }
+                  shelfID={ SHELVES.READING }
+                  getBooksInShelf={ () => { return this.filterBooks(SHELVES.READING) } }
+                  onShelfChange={(bookId, shelf) => { this.moveBookToShelf(bookId, shelf) }}
                 />
                 <BookShelf shelfTitle="Want to Read"
-                  booksInShelf={ this.filterBooks(SHELVES.TO_READ) }
+                  shelfID={ SHELVES.TO_READ }
+                  getBooksInShelf={ () => { return this.filterBooks(SHELVES.TO_READ) } }
+                  onShelfChange={(bookId, shelf) => { this.moveBookToShelf(bookId, shelf) }}
                 />
                 <BookShelf shelfTitle="Read"
-                  booksInShelf={ this.filterBooks(SHELVES.READ) }
+                  shelfID={ SHELVES.READ }
+                  getBooksInShelf={ () => { return this.filterBooks(SHELVES.READ) } }
+                  onShelfChange={(bookId, shelf) => { this.moveBookToShelf(bookId, shelf) }}
                 />
               </div>
             )}

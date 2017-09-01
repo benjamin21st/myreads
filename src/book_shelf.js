@@ -2,28 +2,28 @@ import React, { Component } from 'react';
 import BookItem from './book_item';
 
 class BookShelf extends Component {
-
-  state = {};
-
-  componentDidMount () {
-    this.setState({ books: this.props.booksInShelf });
-  }
-
   render () {
     return (
         <div className="bookshelf">
           <h2 className="bookshelf-title">{ this.props.shelfTitle }</h2>
           <div className="bookshelf-books">
             <ol className="books-grid">
-              { this.state.books && (this.state.books.map((book) => {
+              {/* NOTE: A little confused here, shouldn't books be part of the "state" of
+                  the bookshelf? If that's the case, then we will have to maintain
+                  two copies of the same data in both state and props; if we only
+                  try using state, we will have to control the state from the parent
+                  component, which is not necessarily the best idea. */}
+              { this.props.getBooksInShelf().map((book) => {
                 return (
-                  <li key={ book.id }>
-                    <BookItem title={ book.title }
-                              author={ book.author}
-                              thumbnail={ book.imageLinks.smallThumbnail } />
-                  </li>
+                  <BookItem title={ book.title }
+                            author={ book.author}
+                            id={ book.id }
+                            key={ book.id }
+                            thumbnail={ book.imageLinks.smallThumbnail }
+                            shelf={ this.props.shelfID }
+                            onShelfChange={ (bookId, shelf) => { this.props.onShelfChange(bookId, shelf) }}/>
                 )
-              }))}
+              })}
             </ol>
           </div>
         </div>
