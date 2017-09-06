@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import BookItem from './book_item';
 
+/**
+ * These are the shelves we currently support, they should not be modified
+ * during the lifetime of the app
+ */
+const SHELVES = {
+  TO_READ: "wantToRead",
+  READING: "currentlyReading",
+  READ: "read",
+  NO_SHELF: "none"
+}
+
 class BookShelf extends Component {
   render () {
     return (
@@ -31,4 +42,7 @@ class BookShelf extends Component {
   }
 }
 
-export default BookShelf;
+export {
+  BookShelf,
+  SHELVES
+}

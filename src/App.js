@@ -3,20 +3,18 @@ import { Route, Link } from 'react-router-dom';
 
 import * as BooksAPI from './BooksAPI';
 import SearchForm from './search_form';
-import BookShelf from './book_shelf';
+import { BookShelf, SHELVES } from './book_shelf';
 
 import './App.css';
 
-const SHELVES = {
-  TO_READ: "wantToRead",
-  READING: "currentlyReading",
-  READ: "read"
-}
-
+// TODO: due to routing complication, move the two main page components into their own module
+//       so that we can leverage their life cycle events
 class BooksApp extends React.Component {
   state = {}
 
   componentDidMount() {
+    // TODO: on search page, this is unnecessary
+    // TODO: books added on search page are not updated into the shelves
     BooksAPI.getAll().then((allBooks) => {
       console.log('Fetched from server')
       console.log(allBooks);
