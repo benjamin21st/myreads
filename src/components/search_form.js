@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
+import * as BooksAPI from './../models/BooksAPI';
 import BookItem from './book_item';
 import { SHELVES } from './book_shelf';
 

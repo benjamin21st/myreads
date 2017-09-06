@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as BooksAPI from './BooksAPI';
+import * as BooksAPI from './../models/BooksAPI';
 
 class BookItem extends Component {
   handleShelfChange (e) {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 
-import * as BooksAPI from './BooksAPI';
-import SearchForm from './search_form';
-import { BookShelf, SHELVES } from './book_shelf';
+import * as BooksAPI from './models/BooksAPI';
+import SearchForm from './components/search_form';
+import { BookShelf, SHELVES } from './components/book_shelf';
 
-import './App.css';
+import './styles/App.css';
 
 // TODO: due to routing complication, move the two main page components into their own module
 //       so that we can leverage their life cycle events
