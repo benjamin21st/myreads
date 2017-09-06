@@ -2,29 +2,52 @@
 
 ## Project Set up
 
-To get started developing right away:
+To get started using right away:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
+The server should be running at port `3000`, you can visit `localhost:3000` using any modern web browser.
+
 ## Project structure
 ```bash
-├── CONTRIBUTING.md
-├── README.md - This file.
-├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for you to use with your app.
-├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
+├── README.md
+├── SEARCH_TERMS.md
+├── build
+│   ├── asset-manifest.json
+│   ├── favicon.ico
+│   ├── index.html
+│   └── static
+│       ├── css
+│       │   ├── main.521aac3a.css
+│       │   └── main.521aac3a.css.map
+│       ├── js
+│       │   ├── main.2d4caf83.js
+│       │   └── main.2d4caf83.js.map
+│       └── media
+├── node_modules
+├── package.json
 ├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
+│   ├── favicon.ico
+│   └── index.html
 └── src
-    ├── App.css # Styles for your app. Feel free to customize this as you desire.
-    ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # Global styles. You probably won't need to change anything here.
-    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+    ├── App.js
+    ├── components
+    │   ├── book_item.js
+    │   ├── book_library.js
+    │   ├── book_shelf.js
+    │   └── search_form.js
+    ├── index.js
+    ├── models
+    │   └── BooksAPI.js
+    ├── styles
+    │   ├── App.css
+    │   ├── icons
+    │   │   ├── add.svg
+    │   │   ├── arrow-back.svg
+    │   │   ├── arrow-drop-down.svg
+    │   │   └── book.svg
+    │   └── index.css
+    └── tests
+        └── App.test.js
 ```
