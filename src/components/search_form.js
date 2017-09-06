@@ -5,12 +5,11 @@ import BookItem from './book_item';
 import { SHELVES } from './book_shelf';
 
 class SearchForm extends Component {
+  // TODO: this doesn't need to be in here as it shouldn't trigger unnecessary view rendering
+  timeOutID = null;
 
   state = {
     lastKeyPress: (new Date()).getTime(), // we fire search request every 500ms, not as user types
-    // TODO: this doesn't need to be in here as it shouldn't trigger unnecessary view rendering
-    timeOutID: null,
-    searchResults: []
   }
 
   handleSearch = (e) => {
@@ -20,17 +19,16 @@ class SearchForm extends Component {
       // do nothing, user is typing too fast
     } else if (searchTerm) {
       let timeOutID = setTimeout(()=>{
-        this.setState({ timeOutID: null }); // clear current timeout
-        console.log('Firing your search for: ', this.state.searchTerm);
+        this.timeOutID = null; // clear current timeout
         BooksAPI.search(searchTerm, 5).then((results) => {
           if ('error' in results) {
-            alert(`No match found for your search of "${originalInput}", please try a different search`);
+            this.setState({searchResults: []});
           } else {
             this.setState({searchResults: results});
           }
         });
       }, 200);
-      this.setState({ timeOutID });
+      this.timeOutID = timeOutID; // this doesn't require rerendering, so not including it in "state"
     }
   }
 
@@ -77,11 +75,15 @@ class SearchForm extends Component {
                           author={ book.author }
                           id={ book.id }
                           key={ book.id }
-                          thumbnail={ book.imageLinks.smallThumbnail }
+                          // TODO: figure out how the svg files are built and add a default book cover
+                          thumbnail={ book.imageLinks ? book.imageLinks.smallThumbnail : '' }
                           shelf={ book.shelf || SHELVES.NO_SHELF }
                           onShelfChange={ (bookId, shelf) => { this.onShelfChange(bookId, shelf) }}
                 />)
               })
+            )}
+            {this.state.searchResults && !this.state.searchResults.length && (
+              <div><span className="padded-icon">&#128546;</span> No match found</div>
             )}
           </ol>
         </div>

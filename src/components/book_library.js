@@ -15,8 +15,6 @@ class BookLibrary extends Component {
     // TODO: on search page, this is unnecessary
     // TODO: books added on search page are not updated into the shelves
     BooksAPI.getAll().then((allBooks) => {
-      console.log('Fetched from server')
-      console.log(allBooks);
       this.setState({
         allBooks: allBooks
       });

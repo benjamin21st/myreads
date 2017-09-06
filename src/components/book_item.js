@@ -4,7 +4,6 @@ import * as BooksAPI from './../models/BooksAPI';
 class BookItem extends Component {
   handleShelfChange (e) {
     const id = this.props.id, shelf = e.target.value;
-    console.log(`Moving book ${id} to shelf: ${shelf}`);
     // Since all that "update" call need from book is its id,
     // we can just construct a simple object like this without having
     // to pass in the entire this.props
