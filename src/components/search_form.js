@@ -8,6 +8,10 @@ class SearchForm extends Component {
   // TODO: this doesn't need to be in here as it shouldn't trigger unnecessary view rendering
   timeOutID = null;
 
+  // NOTE:
+  // the search API returns books with no "shelf", as a work around, we first request
+  // the books user currently have through the getAll API, and then update the search
+  // results if any books match existing ones
   state = {
     lastKeyPress: (new Date()).getTime(), // we fire search request every 500ms, not as user types
   }
@@ -20,13 +24,27 @@ class SearchForm extends Component {
     } else if (searchTerm) {
       let timeOutID = setTimeout(()=>{
         this.timeOutID = null; // clear current timeout
-        BooksAPI.search(searchTerm, 5).then((results) => {
-          if ('error' in results) {
-            this.setState({searchResults: []});
-          } else {
-            this.setState({searchResults: results});
-          }
-        });
+        // NOTE:
+        // getAll here because we want the operation to be atomic, if we do it only
+        // once when search page loads, then user may have updated his/her shelf somewhere else,
+        // but opening app search page will not reflect the change
+        BooksAPI.getAll().then((existingBooks) => {
+          BooksAPI.search(searchTerm, 5).then((results) => {
+            if ('error' in results) {
+              this.setState({searchResults: []});
+            } else {
+              // process results
+              let bookIdToShelfMap = {};
+              for (let book of existingBooks) {
+                bookIdToShelfMap[book.id] = book.shelf;
+              }
+              for (let book of results) {
+                book.shelf = bookIdToShelfMap[book.id] || SHELVES.NO_SHELF;
+              }
+              this.setState({searchResults: results});
+            }
+          });
+        })
       }, 200);
       this.timeOutID = timeOutID; // this doesn't require rerendering, so not including it in "state"
     }
@@ -77,7 +95,7 @@ class SearchForm extends Component {
                           key={ book.id }
                           // TODO: figure out how the svg files are built and add a default book cover
                           thumbnail={ book.imageLinks ? book.imageLinks.smallThumbnail : '' }
-                          shelf={ book.shelf || SHELVES.NO_SHELF }
+                          shelf={ book.shelf }
                           onShelfChange={ (bookId, shelf) => { this.onShelfChange(bookId, shelf) }}
                 />)
               })
