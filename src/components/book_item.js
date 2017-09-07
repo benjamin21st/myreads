@@ -3,7 +3,8 @@ import * as BooksAPI from './../models/BooksAPI';
 
 class BookItem extends Component {
   handleShelfChange (e) {
-    const id = this.props.id, shelf = e.target.value;
+    const { id } = this.props,
+          shelf = e.target.value;
     // Since all that "update" call need from book is its id,
     // we can just construct a simple object like this without having
     // to pass in the entire this.props
@@ -12,17 +13,16 @@ class BookItem extends Component {
     });
   }
   render () {
+    let { thumbnail, shelf, title, author } = this.props;
     return (
       <li key={ this.props.id }>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{
-              width: 128,
-              height: 193,
-              backgroundImage: `url("${ this.props.thumbnail }")` }}></div>
+              backgroundImage: `url("${ thumbnail }")` }}></div>
             <div className="book-shelf-changer">
               <select
-                value={ this.props.shelf }
+                value={ shelf }
                 onChange={ (e) => this.handleShelfChange(e) }>
                 <option disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
@@ -32,8 +32,8 @@ class BookItem extends Component {
               </select>
             </div>
           </div>
-          <div className="book-title">{ this.props.title }</div>
-          <div className="book-authors">{ this.props.author }</div>
+          <div className="book-title">{ title }</div>
+          <div className="book-authors">{ author ? author.join(', ') : '' }</div>
         </div>
       </li>
     );

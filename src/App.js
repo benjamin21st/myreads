@@ -6,20 +6,16 @@ import BookLibrary from './components/book_library';
 
 import './styles/App.css';
 
-// TODO: due to routing complication, move the two main page components into their own module
-//       so that we can leverage their life cycle events
+/**
+ * This file is the entry point for the application. It also serves as the router
+ * that dispatches views accordingly.
+ */
 class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route path="/search" render={() => (
-            <SearchForm />
-          )}
-        />
-        <Route exact path="/" render={() => (
-            <BookLibrary />
-          )}
-        />
+        <Route path="/search" component={ SearchForm } />
+        <Route exact path="/" component={ BookLibrary }/>
       </div>
     )
   }
